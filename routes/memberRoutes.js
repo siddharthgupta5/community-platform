@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const memberController = require('../controllers/memberController');
-const authController = require('../controllers/authController');
+const { protect, isCommunityAdmin } = require('../middleware/auth');
 const { validateMember } = require('../utils/validators');
 
 // Only Admin can add members
 router.post(
   '/',
-  authController.protect,
-  authController.isCommunityAdmin,
+  protect,
+  isCommunityAdmin,
   validateMember,
   memberController.addMember
 );
@@ -16,8 +16,8 @@ router.post(
 // Only Admin can remove members
 router.delete(
   '/:id',
-  authController.protect,
-  authController.isCommunityAdmin,
+  protect,
+  isCommunityAdmin,
   memberController.removeMember
 );
 
